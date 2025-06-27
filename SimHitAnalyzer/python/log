@@ -1,0 +1,103 @@
+' looking for alignment labels ''.
+' looking for alignment labels ''.
+%MSG-i Alignments:  (NoModuleName) FakeAlignmentProducer()  17-Jun-2025 14:50:50 CEST pre-events
+Providing data with label 'fakeForIdeal'.
+%MSG
+%MSG-i Geometry:  (NoModuleName) TrackerDigiGeometryESModule()  17-Jun-2025 14:50:51 CEST pre-events
+Label 'idealForDigi' IGNORING alignment labels 'fakeForIdeal'.
+%MSG
+%MSG-i Geometry:  (NoModuleName) TrackerDigiGeometryESModule()  17-Jun-2025 14:50:51 CEST pre-events
+Label '' looking for alignment labels ''.
+%MSG
+TrackerGeometricDetESModule::fromDDD 1  fromDD4hep 0
+%MSG-i TRACKER:  (NoModuleName) 17-Jun-2025 14:50:51 CEST pre-events
+TrackerTopologyEP::TrackerTopologyEP
+%MSG
+%MSG-i Alignments:  (NoModuleName) FakeAlignmentSource()  17-Jun-2025 14:50:51 CEST pre-events
+Providing data with label ''.
+%MSG
+%MSG-i StatisticsSenderService:  file_open 17-Jun-2025 14:50:51 CEST pre-events
+openingFile: opening file:step1_CRACK.root
+
+%MSG
+17-Jun-2025 14:50:51 CEST  Initiating request to open file file:step1_CRACK.root
+%MSG-i Root_Information:  file_open TClass::Init() 17-Jun-2025 14:50:51 CEST  pre-events
+no dictionary for class pair<string,ULong64_t> is available
+%MSG
+17-Jun-2025 14:50:51 CEST  Successfully opened file file:step1_CRACK.root
+%MSG-i EventSetupDependency:  AfterModConstruction 17-Jun-2025 14:50:52 CEST  pre-events
+The EventSetup record MuonGeometryRecord depends on at least one Record 
+ (GEMAlignmentRcd, GeometryFileRcd, DTRecoGeometryRcd, CSCRecoGeometryRcd, GEMRecoGeometryRcd, ME0RecoGeometryRcd, RPCRecoGeometryRcd, DTAlignmentErrorRcd, MuonNumberingRecord, CSCAlignmentErrorRcd, DDSpecParRegistryRcd, GEMAlignmentErrorRcd, CSCRecoDigiParametersRcd, GEMAlignmentErrorExtendedRcd) which is not present in the job.
+ This may lead to an exception begin thrown during event processing.
+ If no exception occurs during the job than it is usually safe to ignore this message.
+%MSG
+%MSG-i EventSetupDependency:  AfterModConstruction 17-Jun-2025 14:50:52 CEST  pre-events
+The EventSetup record IdealGeometryRecord depends on at least one Record 
+ (GeometryFileRcd) which is not present in the job.
+ This may lead to an exception begin thrown during event processing.
+ If no exception occurs during the job than it is usually safe to ignore this message.
+%MSG
+%MSG-i EventSetupDependency:  AfterModConstruction 17-Jun-2025 14:50:52 CEST  pre-events
+The EventSetup record TrackerRecoGeometryRecord depends on at least one Record 
+ (MTDTopologyRcd, MTDGeometryRecord, MTDDigiGeometryRecord) which is not present in the job.
+ This may lead to an exception begin thrown during event processing.
+ If no exception occurs during the job than it is usually safe to ignore this message.
+%MSG
+%MSG-i EventSetupDependency:  AfterModConstruction 17-Jun-2025 14:50:52 CEST  pre-events
+The EventSetup record GlobalTrackingGeometryRecord depends on at least one Record 
+ (MTDDigiGeometryRecord) which is not present in the job.
+ This may lead to an exception begin thrown during event processing.
+ If no exception occurs during the job than it is usually safe to ignore this message.
+%MSG
+Begin processing the 1st record. Run 1, Event 2, LumiSection 1 on stream 0 at 17-Jun-2025 14:50:52.418 CEST
+%MSG-i DDLParser:   XMLIdealGeometryESSource:XMLIdealGeometryESSource@callESModule  17-Jun-2025 14:50:52 CEST Run: 1 Event: 2
+Start Parsing.  Validation is set off for the time being.
+%MSG
+DDDCmsTrackerContruction::construct: Call Tracker builder.
+%MSG-e CmsTrackerBuilder:   TrackerGeometricDetESModule:trackerNumberingGeometry@callESModule  17-Jun-2025 14:50:52 CEST Run: 1 Event: 2
+ ERROR - I was expecting a SubDet, I got a FullTracker
+%MSG
+Assign DetIds
+%MSG-i TrackerAdditionalParametersPerDet:   TrackerAdditionalParametersPerDetESModule:TrackerAdditionalParametersPerDet@callESModule  17-Jun-2025 14:50:52 CEST Run: 1 Event: 2
+TrackerAdditionalParametersPerDetESModule::produce(const PTrackerAdditionalParametersPerDetRcd& iRecord)
+%MSG
+%MSG-i TrackerGeom:  TrackerParametersESModule:trackerParameters@callESModule  17-Jun-2025 14:50:52 CEST Run: 1 Event: 2
+TrackerParametersESModule::produce(const PTrackerParametersRcd& iRecord)
+%MSG
+%MSG-i TrackerTopologyEP:  TrackerTopologyEP:trackerTopology@callESModule  17-Jun-2025 14:50:52 CEST Run: 1 Event: 2
+TrackerTopologyEP::produce(const TrackerTopologyRcd& iRecord)
+%MSG
+Tue Jun 17 14:50:52 CEST 2025
+Thread 2 (Thread 0x7f62badff640 (LWP 1190289) "cmsRun"):
+#0  0x00007f62e16d8f3f in wait4 () from /lib64/libc.so.6
+#1  0x00007f62ddc4e307 in edm::service::cmssw_stacktrace_fork() () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginFWCoreServicesPlugins.so
+#2  0x00007f62ddc5119a in edm::service::InitRootHandlers::stacktraceHelperThread() () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginFWCoreServicesPlugins.so
+#3  0x00007f62e1ad84d3 in std::execute_native_thread_routine (__p=0x7f62bd7ac650) at ../../../../../libstdc++-v3/src/c++11/thread.cc:82
+#4  0x00007f62e168a0ea in start_thread () from /lib64/libc.so.6
+#5  0x00007f62e170f150 in clone3 () from /lib64/libc.so.6
+Thread 1 (Thread 0x7f62e1c32540 (LWP 1190278) "cmsRun"):
+#0  0x00007f62e1701f1f in poll () from /lib64/libc.so.6
+#1  0x00007f62ddc513b7 in edm::service::InitRootHandlers::stacktraceFromThread() () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginFWCoreServicesPlugins.so
+#2  0x00007f62ddc515b4 in sig_dostack_then_abort () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginFWCoreServicesPlugins.so
+#3  <signal handler called>
+#4  0x00007f62e168be2c in __pthread_kill_implementation () from /lib64/libc.so.6
+#5  0x00007f62e163eb46 in raise () from /lib64/libc.so.6
+#6  0x00007f62e1628833 in abort () from /lib64/libc.so.6
+#7  0x00007f62e162875b in __assert_fail_base.cold () from /lib64/libc.so.6
+#8  0x00007f62e1637886 in __assert_fail () from /lib64/libc.so.6
+#9  0x00007f62c871a457 in TrackerGeometry::TrackerGeometry(GeometricDet const*) () from /afs/cern.ch/work/h/hrejebsf/private/Tracker_Backend/CMSSW_15_0_1/lib/el9_amd64_gcc12/libGeometryTrackerGeometryBuilder.so
+#10 0x00007f62c871a79b in TrackerGeomBuilderFromGeometricDet::build(GeometricDet const*, PTrackerAdditionalParametersPerDet const*, PTrackerParameters const&, TrackerTopology const*) () from /afs/cern.ch/work/h/hrejebsf/private/Tracker_Backend/CMSSW_15_0_1/lib/el9_amd64_gcc12/libGeometryTrackerGeometryBuilder.so
+#11 0x00007f62c1b7608c in TrackerDigiGeometryESModule::produce(TrackerDigiGeometryRecord const&) () from /afs/cern.ch/work/h/hrejebsf/private/Tracker_Backend/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginGeometryTrackerGeometryBuilderPlugins.so
+#12 0x00007f62c1b7ccba in void edm::SerialTaskQueueChain::actionToRun<edm::eventsetup::CallbackBase<edm::ESProducer, edm::ESProducer::setWhatProduced<TrackerDigiGeometryESModule, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >(TrackerDigiGeometryESModule*, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> > (TrackerDigiGeometryESModule::*)(TrackerDigiGeometryRecord const&), edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> const&, edm::es::Label const&)::{lambda(TrackerDigiGeometryRecord const&)#1}, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >::makeProduceTask<edm::eventsetup::Callback<edm::ESProducer, edm::ESProducer::setWhatProduced<TrackerDigiGeometryESModule, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >(TrackerDigiGeometryESModule*, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> > (TrackerDigiGeometryESModule::*)(TrackerDigiGeometryRecord const&), edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> const&, edm::es::Label const&)::{lambda(TrackerDigiGeometryRecord const&)#1}, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >::prefetchAsync(edm::WaitingTaskHolder, edm::eventsetup::EventSetupRecordImpl const*, edm::EventSetupImpl const*, edm::ServiceToken const&, edm::ESParentContext const&)::{lambda(auto:1&&, auto:2&&, auto:3&&, auto:4&&)#1}::operator()<tbb::detail::d1::task_group*&, edm::ServiceWeakToken&, edm::eventsetup::EventSetupRecordImpl const*&, edm::EventSetupImpl const*&>(tbb::detail::d1::task_group*&, edm::ServiceWeakToken&, edm::eventsetup::EventSetupRecordImpl const*&, edm::EventSetupImpl const*&) const::{lambda(TrackerDigiGeometryRecord const&)#1}>(tbb::detail::d1::task_group*, edm::ServiceWeakToken const&, edm::eventsetup::EventSetupRecordImpl const*, edm::EventSetupImpl const*, bool, tbb::detail::d1::task_group*&)::{lambda(std::__exception_ptr::exception_ptr const*)#1}::operator()(std::__exception_ptr::exception_ptr const*) const::{lambda()#2}&>(tbb::detail::d1::task_group*&) () from /afs/cern.ch/work/h/hrejebsf/private/Tracker_Backend/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginGeometryTrackerGeometryBuilderPlugins.so
+#13 0x00007f62c1b7ce81 in edm::SerialTaskQueue::QueuedTask<edm::SerialTaskQueueChain::push<edm::eventsetup::CallbackBase<edm::ESProducer, edm::ESProducer::setWhatProduced<TrackerDigiGeometryESModule, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >(TrackerDigiGeometryESModule*, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> > (TrackerDigiGeometryESModule::*)(TrackerDigiGeometryRecord const&), edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> const&, edm::es::Label const&)::{lambda(TrackerDigiGeometryRecord const&)#1}, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >::makeProduceTask<edm::eventsetup::Callback<edm::ESProducer, edm::ESProducer::setWhatProduced<TrackerDigiGeometryESModule, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >(TrackerDigiGeometryESModule*, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> > (TrackerDigiGeometryESModule::*)(TrackerDigiGeometryRecord const&), edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> const&, edm::es::Label const&)::{lambda(TrackerDigiGeometryRecord const&)#1}, std::unique_ptr<TrackerGeometry, std::default_delete<TrackerGeometry> >, TrackerDigiGeometryRecord, edm::eventsetup::CallbackSimpleDecorator<TrackerDigiGeometryRecord> >::prefetchAsync(edm::WaitingTaskHolder, edm::eventsetup::EventSetupRecordImpl const*, edm::EventSetupImpl const*, edm::ServiceToken const&, edm::ESParentContext const&)::{lambda(auto:1&&, auto:2&&, auto:3&&, auto:4&&)#1}::operator()<tbb::detail::d1::task_group*&, edm::ServiceWeakToken&, edm::eventsetup::EventSetupRecordImpl const*&, edm::EventSetupImpl const*&>(tbb::detail::d1::task_group*&, edm::ServiceWeakToken&, edm::eventsetup::EventSetupRecordImpl const*&, edm::EventSetupImpl const*&) const::{lambda(TrackerDigiGeometryRecord const&)#1}>(tbb::detail::d1::task_group*, edm::ServiceWeakToken const&, edm::eventsetup::EventSetupRecordImpl const*, edm::EventSetupImpl const*, bool, tbb::detail::d1::task_group*&)::{lambda(std::__exception_ptr::exception_ptr const*)#1}::operator()(std::__exception_ptr::exception_ptr const*) const::{lambda()#2}>(tbb::detail::d1::task_group&, tbb::detail::d1::task_group*&)::{lambda()#1}>::execute() () from /afs/cern.ch/work/h/hrejebsf/private/Tracker_Backend/CMSSW_15_0_1/lib/el9_amd64_gcc12/pluginGeometryTrackerGeometryBuilderPlugins.so
+#14 0x00007f62e2becbb5 in tbb::detail::d1::function_task<edm::SerialTaskQueue::spawn(edm::SerialTaskQueue::TaskBase&)::{lambda()#1}>::execute(tbb::detail::d1::execution_data&) () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/libFWCoreConcurrency.so
+#15 0x00007f62e27723a1 in tbb::detail::r1::task_dispatcher::local_wait_for_all<false, tbb::detail::r1::external_waiter> (waiter=..., t=<optimized out>, this=0x7f62dffcbe00) at /data/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/el9_amd64_gcc12/external/tbb/v2021.9.0-2004ba41fb510862a7d6912113de68a8/tbb-v2021.9.0/src/tbb/task_dispatcher.h:322
+#16 tbb::detail::r1::task_dispatcher::local_wait_for_all<tbb::detail::r1::external_waiter> (waiter=..., t=<optimized out>, this=0x7f62dffcbe00) at /data/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/el9_amd64_gcc12/external/tbb/v2021.9.0-2004ba41fb510862a7d6912113de68a8/tbb-v2021.9.0/src/tbb/task_dispatcher.h:458
+#17 tbb::detail::r1::task_dispatcher::execute_and_wait (t=<optimized out>, wait_ctx=..., w_ctx=...) at /data/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/el9_amd64_gcc12/external/tbb/v2021.9.0-2004ba41fb510862a7d6912113de68a8/tbb-v2021.9.0/src/tbb/task_dispatcher.cpp:168
+#18 0x00007f62e294875b in edm::FinalWaitingTask::wait() () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/libFWCoreFramework.so
+#19 0x00007f62e295592e in edm::EventProcessor::processRuns() () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/libFWCoreFramework.so
+#20 0x00007f62e2955da1 in edm::EventProcessor::runToCompletion() () from /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_1/lib/el9_amd64_gcc12/libFWCoreFramework.so
+#21 0x000000000040857b in tbb::detail::d1::task_arena_function<main::{lambda()#1}::operator()() const::{lambda()#1}, void>::operator()() const ()
+#22 0x00007f62e275e96d in tbb::detail::r1::task_arena_impl::execute (ta=..., d=...) at /data/cmsbld/jenkins/workspace/build-any-ib/w/BUILD/el9_amd64_gcc12/external/tbb/v2021.9.0-2004ba41fb510862a7d6912113de68a8/tbb-v2021.9.0/src/tbb/arena.cpp:688
+#23 0x000000000040a293 in main::{lambda()#1}::operator()() const ()
+#24 0x00000000004051b8 in main ()
