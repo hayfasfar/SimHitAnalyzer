@@ -18,6 +18,13 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
 #include "Geometry/Records/interface/TrackerTopologyRcd.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
+#include "DataFormats/Phase2TrackerDigi/interface/Phase2TrackerDigi.h"
+#include "DataFormats/L1TrackTrigger/interface/TTCluster.h"
+#include "DataFormats/Common/interface/DetSetVectorNew.h"
+#include "DataFormats/Common/interface/Wrapper.h"
+#include <fstream>  
+
 #include "TH3F.h"
 #include "TTree.h"
 #include "TGraph2D.h"
@@ -33,19 +40,49 @@ private:
   void beginJob() override;
   void analyze(const edm::Event&, const edm::EventSetup&) override;
   void endJob() override;
+  std::ofstream csv_out_;
   TH3F* hXY_;
   TTree* tree_;
-  float tree_globalX, tree_globalY, tree_globalZ;
-  float tree_localX, tree_localY, tree_localZ;
-  float tree_energyLoss, tree_time;
-  uint32_t tree_detId;
+  std::vector<float> tree_globalX, tree_globalY, tree_globalZ;
+  std::vector<float> tree_localX, tree_localY, tree_localZ;
+  std::vector<float> tree_energyLoss;
+  std::vector<float> tree_time;
+  std::vector<unsigned int> tree_detId;
+  std::vector<unsigned int> tree_nDigis_perDetId;
+  int tree_event;
+  int tree_nHits;
+  std::vector<float> tree_occupency;
+  std::vector<unsigned int> tree_Digis_rows;
+  std::vector<unsigned int> tree_Digis_columns;
 
-
+  typedef edm::Ref<
+    edm::DetSetVector<Phase2TrackerDigi>,
+    Phase2TrackerDigi,
+    edm::refhelper::FindForDetSetVector<Phase2TrackerDigi>
+> Ref_Phase2TrackerDigi_;
   // ----------member data ---------------------------
    edm::EDGetTokenT<std::vector<PSimHit>> simHitToken_;
   //edm::EDGetTokenT<std::vector<SimVertex>> simHitToken_;
   edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> tkGeomToken_;
   edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> topoToken_;
+  edm::EDGetTokenT<edm::DetSetVector<Phase2TrackerDigi>> digiToken_;
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>,Phase2TrackerDigi,edm::refhelper::FindForDetSetVector<Phase2TrackerDigi>>>> ttClusterIncToken_;
+  /*
+  edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Ref_Phase2TrackerDigi_>>> ttClusterIncToken_;
+  edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Ref_Phase2TrackerDigi_>>> ttClusterAcceptToken_;
+  edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Ref_Phase2TrackerDigi_>>> ttClusterRejectToken_;
+  */
+
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusterIncToken_;
+  //dm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusterAcceptToken_;
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusterRejectToken_;
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusterIncToken_;
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusterAcceptToken_;
+  //m::EDGetTokenT<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusterRejectToken_;
+
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>,Phase2TrackerDigi,edm::refhelper::FindForDetSetVector<Phase2TrackerDigi>>>> ttClusterAcceptToken_;
+  //edm::EDGetTokenT<edmNew::DetSetVector<TTCluster<edm::Ref<edm::DetSetVector<Phase2TrackerDigi>,Phase2TrackerDigi,edm::refhelper::FindForDetSetVector<Phase2TrackerDigi>>>> ttClusterRejectToken_;
+
 
 
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
@@ -54,7 +91,22 @@ private:
 };
 
 SimHitAnalyzer::SimHitAnalyzer(const edm::ParameterSet& iConfig)
-    :simHitToken_(consumes<std::vector<PSimHit>>(iConfig.getParameter<edm::InputTag>("simHitTag"))), tkGeomToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>()),     topoToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>())
+    :simHitToken_(consumes<std::vector<PSimHit>>(iConfig.getParameter<edm::InputTag>("simHitTag"))),
+     tkGeomToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>()),
+     topoToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>()),
+     digiToken_(consumes<edm::DetSetVector<Phase2TrackerDigi>>(iConfig.getParameter<edm::InputTag>("digiHitTag") ))
+     /*
+     ttClusterIncToken_ (consumes<edmNew::DetSetVector<TTCluster<Ref_Phase2TrackerDigi_>>> (iConfig.getParameter<edm::InputTag>("clusterIncHitTag"))),
+     ttClusterAcceptToken_ (consumes<edmNew::DetSetVector<TTCluster<Ref_Phase2TrackerDigi_>>> (iConfig.getParameter<edm::InputTag>("clusterAcceptHitTag"))),
+     ttClusterRejectToken_ (consumes<edmNew::DetSetVector<TTCluster<Ref_Phase2TrackerDigi_>>> (iConfig.getParameter<edm::InputTag>("clusterRejectHitTag")))
+     
+     ttClusterIncToken_(consumes<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>>(
+        iConfig.getParameter<edm::InputTag>("clusterIncHitTag"))),
+    ttClusterAcceptToken_(consumes<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>>(
+        iConfig.getParameter<edm::InputTag>("clusterAcceptHitTag"))),
+    ttClusterRejectToken_(consumes<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>>(
+        iConfig.getParameter<edm::InputTag>("clusterRejectHitTag")))
+    */
 {
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
   setupDataToken_ = esConsumes<SetupData, SetupRecord>();
@@ -79,90 +131,106 @@ void SimHitAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   edm::LogWarning("SimHitAnalyzer") 
       << "SimHit handle is not valid. Event: " << iEvent.id();
   } 
+  /*
   else if (simHitsHandle->empty()) {
   edm::LogWarning("SimHitAnalyzer") 
       << "SimHit collection is valid but empty. Event: " << iEvent.id();
   } 
   else {
   edm::LogInfo("SimHitAnalyzer") << "Got " << simHitsHandle->size() << " hits";
-  }
+  }*/
 
+tree_globalX.clear();
+tree_globalY.clear();
+tree_globalZ.clear();
+tree_localX.clear();
+tree_localY.clear();
+tree_localZ.clear();
+tree_energyLoss.clear();
+tree_time.clear();
+tree_detId.clear();
+tree_nDigis_perDetId.clear();
+tree_occupency.clear();
+tree_Digis_rows.clear();
+tree_Digis_columns.clear();
   
 const TrackerGeometry& tkGeom = iSetup.getData(tkGeomToken_);
 const TrackerTopology& tTopo = iSetup.getData(topoToken_);
+
+
 edm::Handle<std::vector<PSimHit>> hits;
 iEvent.getByToken(simHitToken_, hits);
-   
+tree_event = iEvent.id().event(); 
+tree_nHits = hits->size();
 for (auto const & hit : *hits) {
 
-     GlobalPoint globalPos = tkGeom.idToDet(hit.detUnitId())->surface().toGlobal(hit.localPosition());	  
-    //GlobalPoint globalPos = tkGeom.idToDet(hit.detUnitId())->surface().toGlobal(hit.entryPoint());	  
+     GlobalPoint globalPos = tkGeom.idToDet(hit.detUnitId())->surface().toGlobal(hit.localPosition());	 
+     LocalPoint localPos = hit.localPosition(); 
     edm::LogInfo("HitPosition") << "x=" << globalPos.x() << " y=" << globalPos.y() << " z=" << globalPos.z();
     auto pos = hit.entryPoint();
-    //auto mom = hit.momentumAtEntry();
-    //double tree_localX  = pos.x(), tree_localY  = pos.y(), tree_localZ  = pos.z();
-    tree_globalX = globalPos.x();
-    tree_globalY = globalPos.y();
-    tree_globalZ = globalPos.z();
-    LocalPoint localPos = hit.localPosition();
-    tree_localX = localPos.x();
-    tree_localY = localPos.y();
-    tree_localZ = localPos.z();
-    tree_energyLoss = hit.energyLoss();
-    tree_time = hit.timeOfFlight();
-    const DetId id = hit.detUnitId();
-    tree_detId = id.rawId();
-    tree_->Fill();
-    //globalX.push_back(globalPos.x());
-   // globalY.push_back(globalPos.y());
-    //globalZ.push_back(globalPos.z());  
-    //hXY_->Fill(globalPos.x(), globalPos.y(), globalPos.z());
+    tree_globalX.push_back(globalPos.x());
+    tree_globalY.push_back(globalPos.y());
+    tree_globalZ.push_back(globalPos.z());
+    tree_localX.push_back(localPos.x());
+    tree_localY.push_back(localPos.y());
+    tree_localZ.push_back(localPos.z());
+    tree_energyLoss.push_back(hit.energyLoss());
+    tree_time.push_back(hit.timeOfFlight());
+    tree_detId.push_back(hit.detUnitId());
+
 
     hXY_->Fill(pos.x(),pos.y(), pos.z());
-    /*double px = mom.x(), py = mom.y(), pz = mom.z();
-    edm::LogInfo("SimHitAnalyzer") << "DetUnitId = " << hit.detUnitId()
-                                 << ", TOF = " << hit.timeOfFlight()
-                                 << ", pAbs = " << hit.pabs()
-    				 << ", pos = "  <<  pos
-				 << ", mom = " << mom 
-				 << ", x = " << x ;*/
-    // record or print them
  }
-   //TGraph* gXY = new TGraph();
-   //for (size_t i = 0; i < globalX.size(); ++i){
-   //gXY->SetPoint(i, globalX[i], globalY[i]);
-   //}
-   //gXY->SetTitle("SimHits (XY);x [cm];y [cm];z [cm]");
-   //gXY->Draw("P0");  // or use "PC" to color points
 
- 
+   //tree_->Fill();
 
+edm::Handle<edm::DetSetVector<Phase2TrackerDigi>> digis;
+iEvent.getByToken(digiToken_, digis);
 
-/*
-  edm::Handle<std::vector<SimVertex>> simVertexHandle;
-  //iEvent.getByToken(simVertexToken_, simVertexHandle);
-  iEvent.getByToken(simHitToken_, simVertexHandle);
+if (digis.isValid()) {
+    // DIGIs are stored per Det Id : so you have a collection of Digis per DetIDs
+    // for loop over detIds
+    for (const auto& DSV : *digis) {
+        uint32_t detid = DSV.id;
+	tree_nDigis_perDetId.push_back(DSV.size());
 
-if (simVertexHandle.isValid()) {
-    for (const auto& vertex : *simVertexHandle) {
-        edm::LogInfo("SimHitAnalyzer")
-            << "Vertex ID: " << vertex.vertexId()
-            << " Position (cm): " << vertex.position().x() << ", "
-            << vertex.position().y() << ", "
-            << vertex.position().z();
+        for (const auto& digi : DSV) {
+	     //Loop of over digis per a DetId. 
+            // Example: print or fill histos
+            edm::LogInfo("Phase2TrackerDigi") << "DetId " << detid
+                                              << " row=" << digi.row()
+                                              << " col=" << digi.column();	    
+	    tree_Digis_rows.push_back(digi.row());
+	    tree_Digis_columns.push_back(digi.column());
+
+        }
     }
-} else {
-    edm::LogWarning("SimHitAnalyzer") << "SimVertex collection not valid!";
+}
+/*
+edm::Handle<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusters;
+iEvent.getByToken(ttClusterIncToken_, ttClusters);
+
+
+if (ttClusters.isValid()) {
+    for (const auto& DSV : *ttClusters) {
+        uint32_t detid = DSV.id();
+        edm::LogInfo("TTCluster") << "DetId " << detid
+                                  << " has " << DSV.size() << " clusters";
+        for (const auto& cluster : DSV) {
+            edm::LogInfo("TTCluster") << "  Cluster size = " << cluster.getHits().size();
+        }
+    }
 }
 */
 
+tree_->Fill();
 
-//const TrackerGeometry& tkGeom = iSetup.getData(tkGeomToken_);
-//const TrackerTopology& tTopo = iSetup.getData(topoToken_);
+
 /*
 for (const auto& det : tkGeom.dets()) {
     const DetId id = det->geographicalId();
     edm::LogInfo("DetId") << id.rawId() ;
+    std::cout << "test test test "<< std::endl;
     if (!det) continue;
     if (id.det() == DetId::Tracker) {
         GlobalPoint pos = det->position();
@@ -173,9 +241,9 @@ for (const auto& det : tkGeom.dets()) {
             << pos.y() << ", " 
             << pos.z() << ")";
 
-        
+          
          std::ostringstream nameStream;
-
+         edm::LogInfo("SubDet Id is, ") << id.subdetId() ; 
         if (id.subdetId() == StripSubdetector::TOB) {
             nameStream << "TOB, Layer " << tTopo.tobLayer(id)
                        << ", Rod " << tTopo.tobRod(id)
@@ -183,6 +251,13 @@ for (const auto& det : tkGeom.dets()) {
                        << ", Stereo = " << tTopo.tobStereo(id);
 	    if (tTopo.isLower(id))  edm::LogInfo("Sensor") << "This is the LOWER sensor (stereo=0)";
             else if (tTopo.isUpper(id)) edm::LogInfo("Sensor") << "This is the UPPER sensor (stereo=1)";
+
+
+	    if(!tTopo.isLower(id) && !tTopo.isUpper(id)){
+               // Save this DetId in the CSV
+               csv_out_ << id.rawId() << "\n";
+            }
+
         } else if (id.subdetId() == PixelSubdetector::PixelBarrel) {
             nameStream << "PixelBarrel, Layer " << tTopo.pxbLayer(id)
                        << ", Ladder " << tTopo.pxbLadder(id);
@@ -206,27 +281,37 @@ for (const auto& det : tkGeom.dets()) {
 void SimHitAnalyzer::beginJob() {
   // please remove this method if not needed
   edm::Service<TFileService> fs;
+  csv_out_.open("detid_map.csv");
+  csv_out_ << "DetId\n"; 
+
   //hXY_ = fs->make<TH2F>("hXY", "SimHit XY positions;X [cm];Y [cm]", 100, -6.5, 100, 200, -100, 100);
   hXY_ = fs->make<TH3F>("hXY", "SimHit XY positions", 100, -6.5, 6.5, 100, -50, 50, 100, -70, 70 );
   tree_ = fs->make<TTree>("SimHitsTree", "SimHits Tree");
 
-  tree_->Branch("globalX", &tree_globalX, "globalX/F");
-  tree_->Branch("globalY", &tree_globalY, "globalY/F");
-  tree_->Branch("globalZ", &tree_globalZ, "globalZ/F");
+  tree_->Branch("globalX", &tree_globalX);
+  tree_->Branch("globalY", &tree_globalY);
+  tree_->Branch("globalZ", &tree_globalZ);
 
-  tree_->Branch("localX", &tree_localX, "localX/F");
-  tree_->Branch("localY", &tree_localY, "localY/F");
-  tree_->Branch("localZ", &tree_localZ, "localZ/F");
+  tree_->Branch("localX", &tree_localX);
+  tree_->Branch("localY", &tree_localY);
+  tree_->Branch("localZ", &tree_localZ);
 
-  tree_->Branch("energyLoss", &tree_energyLoss, "energyLoss/F");
-  tree_->Branch("time", &tree_time, "time/F");
+  tree_->Branch("energyLoss", &tree_energyLoss);
+  tree_->Branch("time", &tree_time);
 
-  tree_->Branch("detId", &tree_detId, "detId/i");
+  tree_->Branch("detId", &tree_detId);
+  tree_->Branch("Event", &tree_event);
+  tree_->Branch("nHits", &tree_nHits);
+  tree_->Branch("nDigis_perDetId", &tree_nDigis_perDetId);
+  tree_->Branch("occupency", &tree_occupency);
+  tree_->Branch("Digis_columns", &tree_Digis_columns);
+  tree_->Branch("Digis_rows", &tree_Digis_rows);
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void SimHitAnalyzer::endJob() {
   // please remove this method if not needed
+  csv_out_.close();
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
@@ -235,6 +320,11 @@ void SimHitAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& descriptio
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
   desc.add<edm::InputTag>("simHitTag", edm::InputTag("g4SimHits", "TrackerHitsTIBLowTof"));
+  desc.add<edm::InputTag>("digiHitTag", edm::InputTag("mix", "Tracker", "DIGI"));
+  desc.add<edm::InputTag>("clusterIncHitTag", edm::InputTag("TTClustersFromPhase2TrackerDigis"   "ClusterInclusive"   "DIGI") ) ; 
+  //desc.add<edm::InputTag>("clusterAcceptHitTag", edm::InputTag("TTClustersFromPhase2TrackerDigis"   "ClusterAccepted"   "DIGI") ) ; 
+  //desc.add<edm::InputTag>("clusterRejectHitTag", edm::InputTag("TTClustersFromPhase2TrackerDigis"   "ClusterRejected"   "DIGI") ) ; 
+
   //desc.setUnknown();
   descriptions.addDefault(desc);
 
