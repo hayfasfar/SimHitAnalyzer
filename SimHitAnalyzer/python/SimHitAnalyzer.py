@@ -5,7 +5,7 @@ process = cms.Process("ANALYZE")
 
 #process.source = cms.Source("PoolSource", fileNames=cms.untracked.vstring('file:/eos/home-h/hrejebsf/CRACK/step2.root'))
 process.source = cms.Source("PoolSource", fileNames=cms.untracked.vstring('file:step2.root'))
-process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(-1))
+process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(1))
 #eventsToProcess = cms.untracked.VEventRange('1:1:629')
 process.load("Geometry.CMSCommonData.cmsExtendedGeometryRun4D500XML_cfi")
 process.load("Configuration.Geometry.GeometryExtendedRun4D500Reco_cff")

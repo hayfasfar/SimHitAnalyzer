@@ -206,27 +206,11 @@ if (digis.isValid()) {
         }
     }
 }
-/*
-edm::Handle<edmNew::DetSetVector<TTCluster<Phase2TrackerDigi>>> ttClusters;
-iEvent.getByToken(ttClusterIncToken_, ttClusters);
-
-
-if (ttClusters.isValid()) {
-    for (const auto& DSV : *ttClusters) {
-        uint32_t detid = DSV.id();
-        edm::LogInfo("TTCluster") << "DetId " << detid
-                                  << " has " << DSV.size() << " clusters";
-        for (const auto& cluster : DSV) {
-            edm::LogInfo("TTCluster") << "  Cluster size = " << cluster.getHits().size();
-        }
-    }
-}
-*/
 
 tree_->Fill();
 
 
-/*
+
 for (const auto& det : tkGeom.dets()) {
     const DetId id = det->geographicalId();
     edm::LogInfo("DetId") << id.rawId() ;
@@ -273,7 +257,7 @@ for (const auto& det : tkGeom.dets()) {
     }
     
 }
-*/
+
 
 }
 
